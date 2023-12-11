@@ -1,7 +1,14 @@
 Config = {}
 
 Config.ForceWeather = true --if true the script does the snow
+Config.Weather = "XMAS" --set to "" or nil if only snow is wished on road 
+
 Config.EnableSnowBalls = true --allow snowballs
+
+Config.SnowballAsItem = false -- set to true if you use a inventory like ox_inventory
+Config.SnowballItemName = ""
+
+
 Config.SnowBallAmount = 2 --snoballs per grab
 Config.SnowBallHelperText = "Press ~INPUT_CONTEXT~ to pickup " .. Config.SnowBallAmount .. " snowball(s)!" --helptext outside vehicle
 
