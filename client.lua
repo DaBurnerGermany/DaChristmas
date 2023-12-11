@@ -11,7 +11,7 @@ while ESX == nil and QBCore == nil do
 	end
 end 
 
-local TractionMultiplier = nil
+TractionMultiplier = 1.0
 
 CreateThread(function()	
     while true and Config.ForceWeather do	
@@ -34,13 +34,14 @@ end)
 -- edited by LuxCoding
 CreateThread(function()
 	while true and Config.RemoveTraction ~= 1.0 do
-		if UseFreezingRain then
+		Wait(100)
+		if Config.UseFreezingRain then
 			if ESX ~= nil then 
 				ESX.TriggerServerCallback('DaChristmas:getMultiplier', function(Multiplier) 
 					TractionMultiplier = Multiplier
 				end)
 			else
-				QBCore.Functions.TriggerCallback('Lux_VehiclePaper:isnotregistered', function(result)
+				QBCore.Functions.TriggerCallback('DaChristmas:getMultiplier', function(Multiplier)
 					TractionMultiplier = Multiplier
 				end)
 			end
@@ -66,7 +67,6 @@ CreateThread(function()
 				SetVehicleHandlingFloat(playerVehicle, 'CHandlingData', 'fLowSpeedTractionLossMult',1.0 * TractionMultiplier)
 			end 
 		end 
-		Wait(100)
 	end 
 end)
 

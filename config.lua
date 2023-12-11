@@ -23,7 +23,7 @@ Config.FreezingRainUpdateTime = 60 * 60 * 1000 --the time how long it takes whet
 Config.FreezingRainRemoveTraction = 12.5 --traction loss Multiplier by Freezing Rain
 
 Config.UseWebhooks = true
-Config.WebhookURL = "https://discord.com/api/webhooks/1179424335803453582/2EC9lIScsSVEkPlrpCkz3XPISA5R2xiG3qhCmmWp2FgMuP_iAK7PWGHqb-imbk_BmTcm"
+Config.WebhookURL = ""
 
 Config.Trees = { --trees to spawn
 	{
@@ -46,7 +46,9 @@ Translation = {
 		['freezing_rain_warning_over_bot_name'] = 'Wetterdienst',
 		['freezing_rain_warning_over_author_name'] = 'Wetterdienst',
 		['freezing_rain_warning_over_title_name'] = 'Keine Blitzeis Gefahr mehr',
-		['freezing_rain_warning_over_description'] = 'Liebe Bürger aufgepasst es herscht keine Blitzeis Gefahr mehr. Die Straßen können wieder befahren werden.',
+		['freezing_rain_warning_over_description'] = 'Liebe Bürger aufgepasst es herscht keine Blitzeis Gefahr mehr. Die Straßen können wieder befahren werden.', 
+		['no_permissions'] = '~r~Du Darfst diesen Command nicht nutzen',
+		['command_delay'] = '~r~Der command wurde erst genutzt warte bis das Blitzeis vorbei ist',
     },
     ['en'] = {
 		['snowball_help_text'] = 'Press ~INPUT_CONTEXT~ to pickup ' .. Config.SnowBallAmount .. ' snowball(s)!',
@@ -58,5 +60,7 @@ Translation = {
 		['freezing_rain_warning_over_author_name'] = 'Weather Service',
 		['freezing_rain_warning_over_title_name'] = 'Freezing Rain Over',
 		['freezing_rain_warning_over_description'] = 'Dear citizens, be careful, there is no longer any danger of Freezing Rain. The roads can be used again.',
-    },
+		['no_permissions'] = '~r~you are not allowed to use this command',
+		['command_delay'] = '~r~The command was first used: wait until the Freezing Rain is over',
+	},
 }

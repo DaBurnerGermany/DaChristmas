@@ -11,6 +11,7 @@ end
 
 local Multiplier = Config.RemoveTraction
 local FreezingRain = false
+local CommandIsUsed = false
 
 RegisterServerEvent("DaChristmas:addSnowballItem")
 AddEventHandler("DaChristmas:addSnowballItem",function()
@@ -108,3 +109,26 @@ if Config.UseWebhooks then
 
     end
 end
+
+RegisterCommand('Blitzeis', function(source, args)
+    if not CommandIsUsed then
+        CommandIsUsed = true
+        local xPlayer = ESX.GetPlayerFromId(source)
+        local group = xPlayer.getGroup()
+        local oldMultiplier = Multiplier
+        local input = tonumber(args[1])
+        
+
+        if group == 'admin' then
+            Multiplier = Config.FreezingRainRemoveTraction
+            Citizen.Wait(input * 1000)
+            Multiplier = oldMultiplier
+            CommandIsUsed = false
+        else
+            xPlayer.showNotification(string.format(Translation[Config.Locale]['no_permissions']))
+            CommandIsUsed = false
+        end
+    else
+        xPlayer.showNotification(string.format(Translation[Config.Locale]['command_delay']))
+    end
+end, false)
