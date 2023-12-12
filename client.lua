@@ -3,13 +3,52 @@ SpawnedTrees = {}
 QBCore = nil
 ESX = nil 
 
+SupressMessage = false
+
+
 while ESX == nil and QBCore == nil do
 	if GetResourceState('es_extended') == 'started' then
 		ESX = exports["es_extended"]:getSharedObject()
+
+		
+		AddEventHandler('playerSpawned', function()
+			SetMessageTimeout()
+		end)
+
 	elseif GetResourceState('qb-core') == 'started' then 
 		QBCore = exports["qb-core"]:GetCoreObject()	
+
+		RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
+			SetMessageTimeout()
+		end)
+
 	end
 end 
+
+
+AddEventHandler('onResourceStart', function(resourceName)
+	if (GetCurrentResourceName() ~= resourceName) then
+	  return
+	end
+
+	SetMessageTimeout()
+
+end)
+
+function SetMessageTimeout()
+	if Config.SupressMessageAfterSeconds then 
+		TriggerServerEvent("DaChristmas:SupressMessage")
+	end 
+end 
+
+RegisterNetEvent("DaChristmas:SupressMessage:client")
+AddEventHandler("DaChristmas:SupressMessage:client",function()
+    SupressMessage = true
+end)
+
+
+
+
 
 TractionMultiplier = 1.0
 
@@ -52,19 +91,21 @@ CreateThread(function()
 		local ped = PlayerPedId(-1)
 		if IsPedInAnyVehicle(ped) then
 			local playerVehicle  = GetVehiclePedIsIn(ped, false)
-			if DoesEntityExist(playerVehicle) then 
-				if Config.BetterTractionOnOffRoadWheels then
-					local VehicleWheelType = GetVehicleWheelType(playerVehicle)
-					if VehicleWheelType == 4 then 
-						if Config.RemoveTraction >= 2.0 then 
-							TractionMultiplier = Config.RemoveTraction / 2
-						else
-							TractionMultiplier = 1.0
+			if Config.BlacklistedVehicle[GetEntityModel(playerVehicle)] == nil then 
+				if DoesEntityExist(playerVehicle) then 
+					if Config.BetterTractionOnOffRoadWheels then
+						local VehicleWheelType = GetVehicleWheelType(playerVehicle)
+						if VehicleWheelType == 4 then 
+							if Config.RemoveTraction >= 2.0 then 
+								TractionMultiplier = Config.RemoveTraction / 2
+							else
+								TractionMultiplier = 1.0
+							end
 						end
 					end
-				end
-				local defaultTractionLoss = GetVehicleHandlingFloat(playerVehicle, 'CHandlingData', 'fLowSpeedTractionLossMult')
-				SetVehicleHandlingFloat(playerVehicle, 'CHandlingData', 'fLowSpeedTractionLossMult',1.0 * TractionMultiplier)
+					local defaultTractionLoss = GetVehicleHandlingFloat(playerVehicle, 'CHandlingData', 'fLowSpeedTractionLossMult')
+					SetVehicleHandlingFloat(playerVehicle, 'CHandlingData', 'fLowSpeedTractionLossMult',1.0 * TractionMultiplier)
+				end 
 			end 
 		end 
 	end 
@@ -84,9 +125,12 @@ CreateThread(function()
 					GiveWeaponToPed(GetPlayerPed(-1), GetHashKey('WEAPON_SNOWBALL'), Config.SnowBallAmount, false, true)	
 				end 
 			end
-			BeginTextCommandDisplayHelp("STRING")
-			AddTextComponentSubstringPlayerName(string.format(Translation[Config.Locale]['snowball_help_text']))
-			EndTextCommandDisplayHelp(0, 0, 1, -1)
+
+			if SupressMessage == false then
+				BeginTextCommandDisplayHelp("STRING")
+				AddTextComponentSubstringPlayerName(string.format(Translation[Config.Locale]['snowball_help_text']))
+				EndTextCommandDisplayHelp(0, 0, 1, -1)	
+			end 
 		end 
 		
 		Wait(1)

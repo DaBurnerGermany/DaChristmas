@@ -28,6 +28,15 @@ AddEventHandler("DaChristmas:addSnowballItem",function()
 	end
 end)
 
+RegisterServerEvent("DaChristmas:SupressMessage")
+AddEventHandler("DaChristmas:SupressMessage",function()
+    local _source = source
+    CreateThread(function()
+        Wait(Config.SupressMessageAfterSeconds * 1000)
+        TriggerClientEvent("DaChristmas:SupressMessage:client", _source)
+    end)
+end)
+
 -- added by LuxCoding
 if Config.UseFreezingRain then 
     Citizen.CreateThread(function()
@@ -132,3 +141,44 @@ RegisterCommand('Blitzeis', function(source, args)
         xPlayer.showNotification(string.format(Translation[Config.Locale]['command_delay']))
     end
 end, false)
+
+
+CreateThread(function()
+    local Name = GetResourceMetadata(GetCurrentResourceName(), 'name', 0)
+    local GithubOrig = GetResourceMetadata(GetCurrentResourceName(), 'github', 0)
+    local Version = GetResourceMetadata(GetCurrentResourceName(), 'version', 0)
+    local Changelog, GithubL, NewestVersion    
+
+    
+    if Version == nil then
+        Version = GetResourceMetadata(resource, 'version', 0)
+    end
+    
+    if string.find(GithubOrig, "github") then
+        if string.find(GithubOrig, "github.com") then
+            Github = string.gsub(GithubOrig, "github", "raw.githubusercontent")..'/master/version'
+        else
+            GithubL = string.gsub(GithubOrig, "raw.githubusercontent", "github"):gsub("/master", "")
+            Github = Github..'/version'
+        end
+    else
+        Script['Github'] = Github..'/version'
+    end
+    PerformHttpRequest(Github, function(Error, V, Header)
+        NewestVersion = V
+    end)
+
+
+    while NewestVersion == nil do 
+        Wait(10)
+    end
+    
+    local intVersion = NewestVersion:gsub("%.",""):gsub("\n","")
+    local intCurVersion = Version:gsub("%.",""):gsub("\n","")
+
+    if intVersion > intCurVersion then 
+        print('^4'..GetCurrentResourceName()..' ('..Name..') ^1✗ ' .. 'Outdated (v'..Version..') ^5- Update found: Version ' .. NewestVersion:gsub("\n","") .. ' ^0('..GithubOrig..')')
+    else
+        print('^4'..GetCurrentResourceName()..' ('..Name..') ^2✓ ' .. 'Up to date - Version ' .. Version..'^0')
+    end 
+end)

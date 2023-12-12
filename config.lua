@@ -5,7 +5,7 @@ Config.Locale = 'de' -- Translation en, de you can add more
 Config.ForceWeather = true --if true the script does the snow
 Config.Weather = "XMAS" --set to "" or nil if only snow is wished on road 
 
-Config.EnableSnowBalls = false --allow snowballs
+Config.EnableSnowBalls = true --allow snowballs
 
 Config.SnowballAsItem = true -- set to true if you use a inventory like ox_inventory
 Config.SnowballItemName = "WEAPON_SNOWBALL"
@@ -13,6 +13,8 @@ Config.SnowballItemName = "WEAPON_SNOWBALL"
 Config.SnowBallAmount = 2 --snoballs per grab
 
 Config.RemoveTraction = 2.5 --remove traction my x percentage 2.0 = 250% badder than usual. Everything < 1.0 means better traction
+
+Config.SupressMessageAfterSeconds = 5; --if set to nil, message is always there
 
 -- added by LuxCoding
 Config.BetterTractionOnOffRoadWheels = true --set to true if you want to have Better Traction with Off Road Wheels 
@@ -64,3 +66,11 @@ Translation = {
 		['command_delay'] = '~r~The command was first used: wait until the Freezing Rain is over',
 	},
 }
+
+Config.BlacklistedVehicle={ --for these vehicles traction loss is disabled
+	['hauler'] = true
+}
+
+for k,v in pairs(Config.BlacklistedVehicle) do 
+	Config.BlacklistedVehicle[GetHashKey(k)] = v
+end 
