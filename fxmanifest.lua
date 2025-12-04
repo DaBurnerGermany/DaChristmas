@@ -3,7 +3,7 @@ game 'gta5'
 
 name 'DaChristmas'
 author 'DaBurnerGermany'
-version '1.0.2'
+version '1.0.3'
 github 'https://github.com/DaBurnerGermany/dachristmas'
 
 lua54 'yes'

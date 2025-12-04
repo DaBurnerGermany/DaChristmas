@@ -2,32 +2,36 @@ Config = {}
 
 Config.Locale = 'de' -- Translation en, de you can add more 
 
-Config.ForceWeather = true --if true the script does the snow
-Config.Weather = "XMAS" --set to "" or nil if only snow is wished on road 
+Config.ForceWeather = true -- if true the script controls the weather
+Config.SnowFallOnly = false -- if true: falling snow only (no snow on the ground / no tracks)
+Config.Weather = "XMAS" -- set to "" or nil if you want default map weather but still use other features
 
-Config.EnableSnowBalls = true --allow snowballs
+Config.EnableSnowBalls = true -- allow snowballs
 
-Config.SnowballAsItem = true -- set to true if you use a inventory like ox_inventory
+Config.SnowballAsItem = false -- set to true if you use an inventory like ox_inventory
 Config.SnowballItemName = "WEAPON_SNOWBALL"
 
-Config.SnowBallAmount = 2 --snoballs per grab
+Config.SnowBallAmount = 2 -- snowballs per grab
 
-Config.RemoveTraction = 2.5 --remove traction my x percentage 2.0 = 250% badder than usual. Everything < 1.0 means better traction
+Config.RemoveTraction = 2.5 -- remove traction by x percentage 2.0 = 250% worse than usual. Everything < 1.0 means better traction
 
-Config.SupressMessageAfterSeconds = 5; --if set to nil, message is always there
+Config.SupressMessageAfterSeconds = 5; -- if set to nil, message is always there
 
 -- added by LuxCoding
-Config.BetterTractionOnOffRoadWheels = true --set to true if you want to have Better Traction with Off Road Wheels 
+Config.BetterTractionOnOffRoadWheels = true -- set to true if you want to have better traction with Off Road Wheels 
 
-Config.UseFreezingRain = true --set to true if you want to use FreezingRain
-Config.FreezingRainChance = 5 --Chance for Freezing Rain 
-Config.FreezingRainUpdateTime = 60 * 60 * 1000 --the time how long it takes whether there is a new draw and whether there is freezing rain
-Config.FreezingRainRemoveTraction = 12.5 --traction loss Multiplier by Freezing Rain
+Config.DisplaySnowballHelp = true
+
+
+Config.UseFreezingRain = true -- set to true if you want to use FreezingRain
+Config.FreezingRainChance = 5 -- Chance for Freezing Rain 
+Config.FreezingRainUpdateTime = 60 * 60 * 1000 -- the time how long it takes whether there is a new draw and whether there is freezing rain
+Config.FreezingRainRemoveTraction = 12.5 -- traction loss Multiplier by Freezing Rain
 
 Config.UseWebhooks = true
 Config.WebhookURL = ""
 
-Config.Trees = { --trees to spawn
+Config.Trees = { -- trees to spawn
 	{
 		model = "prop_xmas_tree_int",
 		coords = {
@@ -67,10 +71,10 @@ Translation = {
 	},
 }
 
-Config.BlacklistedVehicle={ --for these vehicles traction loss is disabled
+Config.BlacklistedVehicle={ -- for these vehicles traction loss is disabled
 	['hauler'] = true
 }
 
 for k,v in pairs(Config.BlacklistedVehicle) do 
 	Config.BlacklistedVehicle[GetHashKey(k)] = v
-end 
+end
